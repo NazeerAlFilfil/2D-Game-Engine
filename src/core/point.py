@@ -1,5 +1,8 @@
 class Point:
-    # Init Function
+    '''
+    A Point class to represent a point in 2D space.
+    '''
+
     def __init__(self, x: float, y: float):
         '''
         Initialize a point instance.
@@ -11,7 +14,6 @@ class Point:
         self.x = x
         self.y = y
 
-    # Override Addition Function
     def __add__(self, other: 'Point') -> 'Point':
         '''
         Adds two Point instances component-wise.
@@ -25,7 +27,6 @@ class Point:
 
         return Point(self.x + other.x, self.y + other.y)
 
-    # Override Subtraction Function
     def __sub__(self, other: 'Point') -> 'Point':
         '''
         Subtracts one Point instance from another component-wise.
@@ -39,7 +40,6 @@ class Point:
 
         return Point(self.x - other.x, self.y - other.y)
 
-    # Override Multiplication Function
     def __mul__(self, other: 'Point | float') -> 'Point':
         '''
         Multiplies a Point instance by either a scalar or another Point.
@@ -61,7 +61,6 @@ class Point:
         else:
             raise TypeError(f'Unsupported operand type(s) for *: "Point" and "{type(other).__name__}"')
     
-    # Override Division Function
     def __truediv__(self, other: 'Point') -> 'Point':
         '''
         Divides a Point instance by either a scalar or another Point element-wise.
@@ -88,7 +87,6 @@ class Point:
         else:
             raise TypeError(f'Unsupported operand type(s) for /: "Point" and "{type(other).__name__}"')
 
-    # Override Representation Function
     def __repr__(self) -> str:
         '''
         Returns a string representation of the Point instance for debugging.
@@ -97,9 +95,8 @@ class Point:
             str: A string representation in the format "Point(x, y)".
         '''
 
-        return f'Point({self.x, {self.y}})'
+        return f'Point({self.x}, {self.y})'
 
-    # Override String Function
     def __str__(self) -> str:
         '''
         Returns a user-friendly string representation of the Point instance.
@@ -108,9 +105,8 @@ class Point:
             str: A formatted string representing the point coordinates.
         '''
 
-        return f'Point({self.x, {self.y}})'
+        return f'({self.x}, {self.y})'
 
-    # Clone Function
     def clone(self) -> 'Point':
         '''
         Creates and returns a new Point instance with the same coordinates.
