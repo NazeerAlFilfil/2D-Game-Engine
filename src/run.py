@@ -3,9 +3,10 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
+from core.grid import Grid
+from core.tile import Tile
 from core.object_2D import Object_2D
 from core.point import Point
-from core.tile import Tile
 
 def main():
     pygame.init()
@@ -14,7 +15,7 @@ def main():
     glViewport(0, 0, 1600, 900)
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
-    gluOrtho2D(-800, 800, -450, 450)
+    gluOrtho2D(-16, 16, -9, 9)
     glMatrixMode(GL_MODELVIEW)
     glEnable(GL_BLEND)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
@@ -22,7 +23,7 @@ def main():
     clock = pygame.time.Clock()
     FPS = 60
 
-    SCALE = 100
+    SCALE = 1
 
     object_list = []
 
@@ -234,12 +235,31 @@ def main():
         )
 
     tile = Tile(
+        index=(0, 0),
         object_list=[rock, pawn],
-        sprite='C:/Users/hassan.ali/Desktop/Projects/2D-Game-Engine/assets/images/tiles/gray.png',
-        scaling=Point(1, 1) * SCALE,
+        #sprite='C:/Users/hassan.ali/Desktop/Projects/2D-Game-Engine/assets/images/tiles/blue.png',
+        translation=Point(-1, 0),
+        #scaling=Point(1, 1),
         )
     
+    tile_2 = Tile(
+        index=(0, 1),
+        object_list=[],
+        #sprite='C:/Users/hassan.ali/Desktop/Projects/2D-Game-Engine/assets/images/tiles/yellow.png',
+        translation=Point(1, 0),
+        #scaling=Point(1, 1),
+    )
+
+    tile.move_object_to(tile_2, rock)
+    
     #tile.object_list.append(pawn)
+
+    grid = Grid(
+        grid_width=8,
+        grid_height=8,
+    )
+
+    grid.add_object_to_tile((0, 0), rock)
 
     running = True
 
@@ -255,7 +275,10 @@ def main():
         #     obj: Object_2D
         #     obj.draw()
 
-        tile.draw()
+        # tile.draw()
+        # tile_2.draw()
+
+        grid.draw()
 
         pygame.display.flip()
 

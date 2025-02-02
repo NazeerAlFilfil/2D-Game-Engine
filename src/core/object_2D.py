@@ -12,7 +12,7 @@ class Object_2D:
     def __init__(
             self,
 
-            sprite: str,
+            sprite: str = '',
 
             #global_origin: Point = Point(0, 0),
             #local_origin: Point = Point(0, 0),
@@ -49,7 +49,8 @@ class Object_2D:
         self.visible = visible
         self.active = active
 
-        self.texture_id = self._load_texture()
+        if self.sprite:
+            self.texture_id = self._load_texture()
 
         # methods
         # self.on_click
@@ -115,11 +116,16 @@ class Object_2D:
 
         The object is drawn only if it is marked as visible.
 
+        Args:
+            scaling (Point): Additional scaling.
+            rotation (float): Additional rotation.
+            translation (Point): Additional translation.
+
         No return value; the method directly modifies the OpenGL state to render the object.
         '''
         
         # Check if the object is visible. If not, skip the drawing process.
-        if self.visible:
+        if self.visible and self.sprite:
             # Save the current transformation matrix
             glPushMatrix()
 
