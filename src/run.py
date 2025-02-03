@@ -235,31 +235,33 @@ def main():
         )
 
     tile = Tile(
-        index=(0, 0),
-        object_list=[rock, pawn],
+        index=0,
+        object_list=[rock],
         #sprite='C:/Users/hassan.ali/Desktop/Projects/2D-Game-Engine/assets/images/tiles/blue.png',
         translation=Point(-1, 0),
         #scaling=Point(1, 1),
         )
     
     tile_2 = Tile(
-        index=(0, 1),
+        index=1,
         object_list=[],
         #sprite='C:/Users/hassan.ali/Desktop/Projects/2D-Game-Engine/assets/images/tiles/yellow.png',
         translation=Point(1, 0),
         #scaling=Point(1, 1),
     )
 
-    tile.move_object_to(tile_2, rock)
+    #tile.move_object_to(tile_2, pawn)
+    # tile_2.add_object(pawn)
     
     #tile.object_list.append(pawn)
 
     grid = Grid(
-        grid_width=8,
-        grid_height=8,
+        grid_width=3,
+        grid_height=3,
     )
 
-    grid.add_object_to_tile((0, 0), rock)
+    grid.add_object_to_tile(0, rock)
+    grid.tile_list[1].add_object(pawn)
 
     running = True
 
@@ -275,7 +277,7 @@ def main():
         #     obj: Object_2D
         #     obj.draw()
 
-        # tile.draw()
+        #tile.draw()
         # tile_2.draw()
 
         grid.draw()

@@ -12,15 +12,15 @@ class Object_2D:
     def __init__(
             self,
 
-            sprite: str = '',
+            sprite: str = None,
 
             #global_origin: Point = Point(0, 0),
             #local_origin: Point = Point(0, 0),
             #z_level: int = 0,
 
-            scaling: Point = Point(1, 1),
+            scaling: Point = None,
             rotation: float = 0,
-            translation: Point = Point(0, 0),
+            translation: Point = None,
 
             # velocity: Point = Point(0, 0),
             # acceleration: Point = Point(0, 0),
@@ -29,7 +29,7 @@ class Object_2D:
             active: bool = True,
             ):
         # sprite path
-        self.sprite = sprite
+        self.sprite = sprite if sprite else ''
 
         # coordinates
         # self.global_origin = global_origin
@@ -37,9 +37,9 @@ class Object_2D:
         # self.z_level = z_level
         
         # transformation
-        self.scaling = scaling
+        self.scaling = scaling if scaling else Point(1, 1)
         self.rotation = rotation
-        self.translation = translation
+        self.translation = translation if translation else Point(0, 0)
 
         # physics
         # self.velocity = velocity
@@ -105,7 +105,7 @@ class Object_2D:
         # Return the texture ID for future use (binding the texture to objects)
         return texture_id
     
-    def draw(self, scaling: 'Point' = Point(1, 1), rotation: float = 0, translation: 'Point' = Point(0, 0)):
+    def draw(self, scaling: 'Point' = None, rotation: float = 0, translation: 'Point' = None):
         '''
         Draws the object on the screen by applying transformations, binding the texture, 
         and rendering a textured rectangle (quad) that represents the object.
@@ -123,6 +123,9 @@ class Object_2D:
 
         No return value; the method directly modifies the OpenGL state to render the object.
         '''
+
+        scaling = scaling if scaling else Point(0, 0)
+        translation = translation if translation else Point(0, 0)
         
         # Check if the object is visible. If not, skip the drawing process.
         if self.visible and self.sprite:
@@ -145,6 +148,9 @@ class Object_2D:
             # Apply scaling transformation. The object is scaled along the x and y axes.
             # The z-axis scaling is set to 1, as the object is 2D.
             glScalef(scaling.x, scaling.y, 1)
+
+            # Reset colors (so color does not affect the texture)
+            glColor(1, 1, 1)
 
             # Enable 2D textures for this drawing operation
             glEnable(GL_TEXTURE_2D)

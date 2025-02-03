@@ -8,7 +8,7 @@ from OpenGL.GLUT import *
 from OpenGL.GLU import *
 
 class Grid(Object_2D):
-    def __init__(self, grid_width: int, grid_height: int, tile_list: dict[tuple[int, int], Tile] = {}, *args, **kwargs):
+    def __init__(self, grid_width: int, grid_height: int, tile_list: list[Tile] = None, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.grid_width = grid_width
@@ -20,28 +20,32 @@ class Grid(Object_2D):
             self._generate_grid_tiles()
 
     def _generate_grid_tiles(self):
-        tile_list: dict[tuple[int, int], Tile] = {}
+        tile_list: list[Tile] = []
 
-        for i in range(int(self.grid_width / -2), math.ceil(self.grid_width / 2)):
-            for j in range(int(self.grid_height / -2), math.ceil(self.grid_height / 2)):
+        for i in range(self.grid_width):
+            for j in range(self.grid_height):
+                index = i * self.grid_width + j
+                # translation_x = 2 * (j - max(0, self.grid_height-1) / 2 )
+                # translation_y = 2 * (-i + max(0, self.grid_width-1) / 2 )
+                translation_x = 2 * (i - max(0, self.grid_width-1) / 2 )
+                translation_y = 2 * (-j + max(0, self.grid_height-1) / 2 )
                 tile = Tile(
-                    index = (i, j),
-                    translation = Point(i*2, j*2),
+                    index = index,
+                    translation = Point(translation_x, translation_y),
                 )
                 
-                tile_list[(i, j)] = tile
+                tile_list.append(tile)
 
         self.tile_list = tile_list
 
-    def add_object_to_tile(self, tile_index: tuple[int, int], object_2d: Object_2D):
-        tile: Tile = self.tile_list.get(tile_index)
-
-        tile.object_list.append(object_2d)
+    def add_object_to_tile(self, tile_index: int, object_2d: Object_2D):
+        tile: Tile = self.tile_list[tile_index]
+        tile.add_object(object_2d)
 
     def draw(self):
         super().draw()
 
-        for tile in self.tile_list.values():
+        for tile in self.tile_list:
             tile: Tile
             tile.draw()
         
@@ -52,12 +56,9 @@ class Grid(Object_2D):
 
         glBegin(GL_POINTS)
 
-        glColor3f(1, 0, 0)
+        glColor3f(1, 1, 0)
 
         glVertex2f(0, 0)
-        # glVertex2f(0.2, -0.2)
-        # glVertex2f(0.2, 0.2)
-        # glVertex2f(-0.2, 0.2)
 
         glEnd()
 
